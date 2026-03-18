@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aunt Sam's Healing Strokes Studio</title>
+  <style>
+    :root{
+      --pink:#ff7fbf;
+      --pink-soft:#ffd8ea;
+      --teal:#4fd1c5;
+      --teal-soft:#d8fbf7;
+      --yellow:#ffe27a;
+      --lav:#d8c7ff;
+      --ink:#334155;
+      --bg:#fff8fc;
+      --white:#ffffff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(255,127,191,.16), transparent 20%),
+        radial-gradient(circle at 90% 8%, rgba(79,209,197,.16), transparent 22%),
+        linear-gradient(180deg,#fff8fc 0%, #f7fffe 100%);
+    }
+    .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+    .hero{
+      padding:56px 0 40px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:28px;
+      align-items:center;
+    }
+    .badge{
+      display:inline-block;
+      background:#fff;
+      border-radius:999px;
+      padding:10px 16px;
+      font-size:14px;
+      box-shadow:0 8px 20px rgba(0,0,0,.06);
+      margin-bottom:18px;
+    }
+    h1{
+      font-size:56px;
+      line-height:1.04;
+      margin:0 0 16px;
+    }
+    .sub{
+      font-size:20px;
+      line-height:1.7;
+      max-width:650px;
+      margin:0 0 24px;
+    }
+    .btns{display:flex; gap:14px; flex-wrap:wrap}
+    .btn{
+      display:inline-block;
+      text-decoration:none;
+      padding:14px 22px;
+      border-radius:18px;
+      font-weight:700;
+      transition:.2s ease;
+    }
+    .btn-primary{background:var(--pink);color:#fff}
+    .btn-secondary{background:#fff;color:var(--ink);box-shadow:0 8px 20px rgba(0,0,0,.06)}
+    .btn:hover{transform:translateY(-2px)}
+    .hero-card-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
+    .mini{
+      background:#fff;
+      padding:22px;
+      border-radius:28px;
+      box-shadow:0 14px 30px rgba(0,0,0,.07);
+      min-height:150px;
+      border:2px dashed rgba(255,127,191,.18);
+    }
+    .mini:nth-child(2){transform:translateY(18px) rotate(1deg)}
+    .mini:nth-child(3){transform:rotate(-1deg)}
+    .mini:nth-child(4){transform:translateY(14px) rotate(-1deg)}
+    .mini .emoji{font-size:32px}
+    .mini h3{margin:12px 0 8px;font-size:20px}
+    .mini p{margin:0;line-height:1.6;font-size:15px}
+    .blob, .blob2{
+      position:absolute;border-radius:999px;filter:blur(18px);opacity:.35;pointer-events:none
+    }
+    .blob{width:220px;height:90px;background:linear-gradient(90deg,var(--pink),var(--teal));bottom:10px;left:5%}
+    .blob2{width:180px;height:110px;background:linear-gradient(90deg,var(--yellow),var(--lav));top:20px;right:10%}
+    .section{
+      padding:40px 0;
+    }
+    .section-title{
+      font-size:38px;
+      margin:0 0 12px;
+    }
+    .eyebrow{
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:13px;
+      font-weight:700;
+      color:#e6499c;
+      margin-bottom:10px;
+    }
+    .two-col{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:28px;
+      align-items:start;
+    }
+    .panel{
+      background:#fff;
+      border-radius:30px;
+      padding:28px;
+      box-shadow:0 14px 30px rgba(0,0,0,.06);
+    }
+    .panel p{line-height:1.8;font-size:17px}
+    .list li{margin:12px 0}
+    .story{
+      margin-top:24px;
+      background:linear-gradient(135deg, #fff 0%, #fff8e7 100%);
+      border:3px dashed rgba(255,226,122,.55);
+    }
+    .benefit-grid, .science-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+    .card{
+      background:#fff;
+      border-radius:26px;
+      padding:24px;
+      box-shadow:0 12px 24px rgba(0,0,0,.06);
+    }
+    .card h3{margin:12px 0 10px}
+    .card p{line-height:1.7;margin:0}
+    .prompts-head{text-align:center;max-width:760px;margin:0 auto 22px}
+    .prompts{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+      margin-top:20px;
+    }
+    details{
+      background:#fff;
+      border-radius:28px;
+      padding:22px;
+      box-shadow:0 12px 24px rgba(0,0,0,.06);
+      border:2px dashed rgba(255,127,191,.18);
+    }
+    summary{
+      list-style:none;
+      cursor:pointer;
+      font-weight:700;
+      font-size:20px;
+    }
+    details summary::-webkit-details-marker{display:none}
+    .inside{
+      margin-top:16px;
+      display:grid;
+      gap:12px;
+    }
+    .box{
+      border-radius:20px;
+      padding:16px 18px;
+    }
+    .box.pink{background:var(--pink-soft)}
+    .box.teal{background:var(--teal-soft)}
+    .box.yellow{background:#fff5cc}
+    .box h4{margin:0 0 8px}
+    .box ul{margin:8px 0 0 18px;padding:0}
+    .box li{margin:8px 0;line-height:1.55}
+    .signup{
+      background:#1f2937;
+      color:#fff;
+      border-radius:34px;
+      padding:34px;
+      box-shadow:0 16px 32px rgba(0,0,0,.15);
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .signup p{color:#e5e7eb; line-height:1.7; max-width:760px; margin:12px auto 0}
+    .signup .btn-primary{display:inline-block; margin-top:22px; font-size:18px; background:var(--yellow); color:#111827}
+    footer{
+      padding:26px 0 40px;
+      color:#64748b;
+      text-align:center;
+      font-size:14px;
+    }
+    .doodles{
+      position:absolute; inset:0; pointer-events:none; opacity:.22; font-size:34px;
+    }
+    .d1{position:absolute; top:12px; left:18px}
+    .d2{position:absolute; top:22px; right:18px}
+    .d3{position:absolute; bottom:8px; left:40px}
+    .d4{position:absolute; bottom:12px; right:48px}
+    @media (max-width: 900px){
+      .hero-grid,.two-col,.benefit-grid,.science-grid,.prompts{grid-template-columns:1fr}
+      h1{font-size:42px}
+      .sub{font-size:18px}
+      .hero-card-grid{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 640px){
+      .hero-card-grid{grid-template-columns:1fr}
+      h1{font-size:36px}
+      .section-title{font-size:30px}
+      .signup{padding:26px}
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="blob"></div>
+    <div class="blob2"></div>
+    <div class="wrap hero-grid">
+      <div>
+        <div class="badge">🎨 Creative healing through art</div>
+        <h1>Aunt Sam's Healing Strokes Studio</h1>
+        <p class="sub">A playful, hope-filled space for creativity, healing, reflection, and growth. Join the email list to hear about future art therapy opportunities, workshops, and community events.</p>
+        <div class="btns">
+          <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSeuf--RklDakIYFPFSGgGaGvJv2HgTqbmmVJreq0CqoXEZG5g/viewform" target="_blank" rel="noopener noreferrer">Join the Email List</a>
+          <a class="btn btn-secondary" href="#about">Learn More</a>
+        </div>
+      </div>
+      <div class="hero-card-grid">
+        <div class="mini">
+          <div class="emoji">🌈</div>
+          <h3>Creative Expression</h3>
+          <p>Use art as a gentle way to process emotions, explore your story, and discover hope.</p>
+        </div>
+        <div class="mini">
+          <div class="emoji">🦋</div>
+          <h3>Healing Space</h3>
+          <p>Bright, welcoming opportunities that encourage reflection, coping skills, and emotional wellness.</p>
+        </div>
+        <div class="mini">
+          <div class="emoji">💛</div>
+          <h3>Community Connection</h3>
+          <p>Gather with others in meaningful experiences that build support, encouragement, and belonging.</p>
+        </div>
+        <div class="mini">
+          <div class="emoji">💌</div>
+          <h3>Stay Updated</h3>
+          <p>Sign up so you never miss a new art therapy class, event, or creative healing opportunity.</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="about">
+      <div class="wrap two-col">
+        <div class="panel">
+          <div class="eyebrow">About</div>
+          <h2 class="section-title">Art can open the door to healing.</h2>
+          <p>Art therapy offers a creative way to slow down, reflect, and connect with emotions in a meaningful way. Through hands-on projects and guided activities, people can explore healing, self-expression, and personal growth.</p>
+          <p>Whether someone is brand new to art or already loves creating, art therapy can be welcoming, accessible, and encouraging.</p>
+        </div>
+        <div class="panel">
+          <h3>What future emails may include</h3>
+          <ul class="list">
+            <li>Upcoming art therapy groups and classes</li>
+            <li>Special community events and creative workshops</li>
+            <li>Supplies or registration details for new opportunities</li>
+            <li>Encouragement and updates about art therapy opportunities</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="wrap">
+        <div class="panel story">
+          <div class="eyebrow" style="color:#14b8a6">Meet Sam</div>
+          <h2 class="section-title" style="margin-top:0">My story of healing and purpose</h2>
+          <p>My journey into art therapy is deeply personal. I have walked through trauma, addiction, and difficult seasons that shaped who I am today. For a long time, I was just trying to survive—but everything began to change when I found God. He met me in my brokenness, restored me, and began leading me into a new season of healing and purpose.</p>
+          <p>Art has always been something I loved, but I didn’t fully understand its power until I began using it to help my best friend who lives with dissociative identity disorder. As I learned more, I saw how art could gently reach places words cannot. That experience led me to pursue my art therapy certification.</p>
+          <p>Now, my heart is to use both my past experiences and what I’ve learned to help others find healing. I want to create safe, welcoming spaces where people can process, express, and begin to feel hope again.</p>
+          <p>God saved my life, and I am choosing to follow where He leads—using art as a way to walk alongside others in their healing journey.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="benefit-grid">
+          <div class="card">
+            <div style="font-size:34px">🖍️</div>
+            <h3>No art experience needed</h3>
+            <p>Art therapy activities can be approachable and supportive for all skill levels.</p>
+          </div>
+          <div class="card">
+            <div style="font-size:34px">✨</div>
+            <h3>Mindful and meaningful</h3>
+            <p>Creative experiences can encourage emotional awareness, grounding, reflection, and coping skills.</p>
+          </div>
+          <div class="card">
+            <div style="font-size:34px">🎉</div>
+            <h3>Hope-filled creativity</h3>
+            <p>Each experience can help make space for healing while creating something beautiful and personal.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="prompts-head">
+          <div class="eyebrow">Try at Home</div>
+          <h2 class="section-title">Simple Art Therapy You Can Do Anywhere</h2>
+          <p>Click a card to explore guided steps, reflection questions, and a healing goal.</p>
+        </div>
+
+        <div class="prompts">
+          <details>
+            <summary>🎨 Draw Your Emotions</summary>
+            <div class="inside">
+              <div class="box pink">
+                <h4>Steps</h4>
+                <ul>
+                  <li>Pause and notice how you feel right now.</li>
+                  <li>Choose 2–4 colors that match those feelings.</li>
+                  <li>Use lines, shapes, or patterns—no need to draw anything realistic.</li>
+                  <li>Fill the page without judging it.</li>
+                </ul>
+              </div>
+              <div class="box teal">
+                <h4>Reflect</h4>
+                <ul>
+                  <li>What emotions showed up while creating?</li>
+                  <li>Did anything shift while I was drawing?</li>
+                </ul>
+              </div>
+              <div class="box yellow"><strong>Goal:</strong> Increase emotional awareness and expression.</div>
+            </div>
+          </details>
+
+          <details>
+            <summary>🧩 Broken to Beautiful</summary>
+            <div class="inside">
+              <div class="box pink">
+                <h4>Steps</h4>
+                <ul>
+                  <li>Take a piece of paper and tear it into pieces.</li>
+                  <li>Notice how it feels to break something apart.</li>
+                  <li>Glue the pieces back together in a new way.</li>
+                  <li>Add color, words, or designs to rebuild it.</li>
+                </ul>
+              </div>
+              <div class="box teal">
+                <h4>Reflect</h4>
+                <ul>
+                  <li>What parts of my life feel broken?</li>
+                  <li>What does rebuilding look like for me?</li>
+                </ul>
+              </div>
+              <div class="box yellow"><strong>Goal:</strong> Explore healing, resilience, and restoration.</div>
+            </div>
+          </details>
+
+          <details>
+            <summary>🌿 Safe Place Art</summary>
+            <div class="inside">
+              <div class="box pink">
+                <h4>Steps</h4>
+                <ul>
+                  <li>Close your eyes and imagine a place where you feel safe.</li>
+                  <li>Notice details—colors, sounds, textures.</li>
+                  <li>Draw or paint this place.</li>
+                  <li>Add anything that brings comfort.</li>
+                </ul>
+              </div>
+              <div class="box teal">
+                <h4>Reflect</h4>
+                <ul>
+                  <li>What makes this place feel safe?</li>
+                  <li>How can I bring parts of this into real life?</li>
+                </ul>
+              </div>
+              <div class="box yellow"><strong>Goal:</strong> Create a mental and emotional safe space.</div>
+            </div>
+          </details>
+
+          <details>
+            <summary>🖌️ Release It</summary>
+            <div class="inside">
+              <div class="box pink">
+                <h4>Steps</h4>
+                <ul>
+                  <li>Think of something weighing on you.</li>
+                  <li>Use fast, messy strokes to express it.</li>
+                  <li>Press hard, go light—let your body lead.</li>
+                  <li>Keep going until you feel a release.</li>
+                </ul>
+              </div>
+              <div class="box teal">
+                <h4>Reflect</h4>
+                <ul>
+                  <li>What did I release?</li>
+                  <li>How does my body feel now?</li>
+                </ul>
+              </div>
+              <div class="box yellow"><strong>Goal:</strong> Release stress and stored emotion.</div>
+            </div>
+          </details>
+
+          <details>
+            <summary>💭 Thought Dump</summary>
+            <div class="inside">
+              <div class="box pink">
+                <h4>Steps</h4>
+                <ul>
+                  <li>Set a timer for 5–10 minutes.</li>
+                  <li>Fill the page with words, doodles, or scribbles.</li>
+                  <li>Do not stop or edit yourself.</li>
+                  <li>Let everything out freely.</li>
+                </ul>
+              </div>
+              <div class="box teal">
+                <h4>Reflect</h4>
+                <ul>
+                  <li>What patterns or themes do I notice?</li>
+                  <li>What is taking up the most space in my mind?</li>
+                </ul>
+              </div>
+              <div class="box yellow"><strong>Goal:</strong> Clear mental clutter and increase self-awareness.</div>
+            </div>
+          </details>
+
+          <details>
+            <summary>✨ Hope Image</summary>
+            <div class="inside">
+              <div class="box pink">
+                <h4>Steps</h4>
+                <ul>
+                  <li>Think about where you want to be emotionally or spiritually.</li>
+                  <li>Create an image that represents that hope.</li>
+                  <li>Use symbols, colors, or words.</li>
+                  <li>Make it something you can look back on.</li>
+                </ul>
+              </div>
+              <div class="box teal">
+                <h4>Reflect</h4>
+                <ul>
+                  <li>What does hope look like for me?</li>
+                  <li>What small step can I take toward this?</li>
+                </ul>
+              </div>
+              <div class="box yellow"><strong>Goal:</strong> Build hope and future vision.</div>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="prompts-head">
+          <div class="eyebrow" style="color:#14b8a6">Why Art Therapy Works</div>
+          <h2 class="section-title">The Science Behind Healing Through Art</h2>
+          <p>Art therapy is more than just creativity—it helps the brain process emotions, stress, and healing.</p>
+        </div>
+        <div class="science-grid">
+          <div class="card"><h3>🧠 Engages the Whole Brain</h3><p>Art activates both logical and emotional parts of the brain, helping connect thoughts and feelings that may feel separate or overwhelming.</p></div>
+          <div class="card"><h3>💭 Gives Expression Without Words</h3><p>Trauma and deep emotions are often stored in parts of the brain that don’t use language. Art offers another path for expression.</p></div>
+          <div class="card"><h3>🌿 Calms the Nervous System</h3><p>Creative movement can help reduce stress, lower anxiety, and bring the body into a calmer state.</p></div>
+          <div class="card"><h3>🔄 Rewires Thought Patterns</h3><p>Creating new images and meanings can help form new pathways that support healing and healthier ways of thinking.</p></div>
+          <div class="card"><h3>❤️ Releases Emotion Safely</h3><p>Art provides a safe outlet for emotions like anger, grief, and fear without needing to act them out in harmful ways.</p></div>
+          <div class="card"><h3>✨ Builds Hope and Identity</h3><p>Making something meaningful can rebuild confidence, identity, and a sense of purpose.</p></div>
+        </div>
+        <div class="panel" style="margin-top:20px; text-align:center">
+          <p>When you create art, your brain begins to slow down, process, and reorganize what feels overwhelming. Over time, this can support deeper healing, clearer thinking, and a greater sense of peace.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="signup">
+          <div class="doodles">
+            <div class="d1">🌈</div>
+            <div class="d2">💌</div>
+            <div class="d3">✨</div>
+            <div class="d4">🎨</div>
+          </div>
+          <div class="eyebrow" style="color:#fecdd3">Email Sign-Up</div>
+          <h2 class="section-title" style="color:#fff; margin-bottom:8px">Be the first to hear about new opportunities</h2>
+          <p>Add your name and email through the form below to join the list for future art therapy opportunities, workshops, and updates.</p>
+          <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSeuf--RklDakIYFPFSGgGaGvJv2HgTqbmmVJreq0CqoXEZG5g/viewform" target="_blank" rel="noopener noreferrer">Sign Up Here</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 Aunt Sam's Healing Strokes Studio · Creative healing · Community · Hope
+  </footer>
+</body>
+</html>
